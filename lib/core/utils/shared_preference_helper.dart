@@ -29,6 +29,14 @@ class SharedPreferenceHelper {
     return getString(Constant.keyToken);
   }
 
+  static bool? getLogin(){
+    return getBoolean(Constant.keyIsLogin);
+  }
+
+  static Future<void> setLogin(bool value) async{
+    await setBoolean(Constant.keyIsLogin, value);
+  }
+
   static Future<void> setToken(String value) async {
     await setString(Constant.keyToken, value);
   }

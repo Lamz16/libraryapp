@@ -26,6 +26,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       await SharedPreferenceHelper.setToken(response.data.token);
 
+      await SharedPreferenceHelper.setLogin(true);
+
       emit(state.copyWith(loginState: ResultLoaded(response)));
     } catch (e) {
       emit(state.copyWith(loginState: ResultError(e.toString())));

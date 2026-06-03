@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:libraryapp/core/utils/shared_preference_helper.dart';
 import 'package:libraryapp/features/book/data/models/res/buku_response.dart';
 import 'package:libraryapp/features/book/presentation/bloc/book_bloc.dart';
 
@@ -14,6 +15,8 @@ class BukuPage extends StatefulWidget {
 }
 
 class _BukuPageState extends State<BukuPage> {
+  final isLogin = SharedPreferenceHelper.getLogin() ?? false;
+
   @override
   void initState() {
     super.initState();
@@ -23,8 +26,11 @@ class _BukuPageState extends State<BukuPage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Is Login -> ${isLogin.toString()}");
     return Scaffold(
-      appBar: AppBar(title: const Text("Daftar Buku")),
+      appBar: isLogin
+      ? null
+      : AppBar(title: const Text("Daftar Buku")),
 
       body: BlocBuilder<BookBloc, BookState>(
         builder: (context, state) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:libraryapp/pages/home_page.dart';
 
 import '../../../../core/state/result_state.dart';
 import '../../../book/presentation/pages/buku_page.dart';
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => const BukuPage(),
+              builder: (_) => const HomePage(),
             ),
           );
 
