@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:libraryapp/features/book/data/models/res/detail_buku_response.dart';
 import 'package:libraryapp/features/book/domain/book_repository.dart';
 import '../../../../core/state/result_state.dart';
 import '../../data/models/res/buku_response.dart';
@@ -15,6 +16,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       : super(BookState.initial()) {
 
     on<GetAllBookEvent>(_getAllBook);
+    on<GetBookByDetail>(_getBookById);
 
   }
 
@@ -48,6 +50,36 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             e.toString(),
           ),
         ),
+      );
+
+    }
+
+  }
+
+  Future<void> _getBookById(
+      GetBookByDetail event,
+      Emitter<BookState> emit,
+      ) async {
+
+    emit(
+      state.copyWith(
+        detailBookState: ResultLoading()
+      )
+    );
+    
+    try{
+      final data = await repository.getBookById(id: event.id);
+      emit(
+        state.copyWith(
+          detailBookState: ResultLoaded(data)
+        )
+      );
+    }catch(e){
+
+      emit(
+        state.copyWith(
+          detailBookState: ResultError(e.toString())
+        )
       );
 
     }
