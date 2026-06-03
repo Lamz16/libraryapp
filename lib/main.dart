@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => DependencyInjection.authBloc()),
         BlocProvider(create: (_) => DependencyInjection.bookBloc()),
         BlocProvider(create: (_) => DependencyInjection.jenbuBloc()),
+        BlocProvider(create: (_) => DependencyInjection.dendaBloc()),
       ],
 
       child: MaterialApp(debugShowCheckedModeBanner: false, home: SplashPage()),

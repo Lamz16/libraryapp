@@ -4,6 +4,10 @@ import 'package:libraryapp/features/book/data/datasource/book_data_source.dart';
 import 'package:libraryapp/features/book/data/repository/book_repository_impl.dart';
 import 'package:libraryapp/features/book/domain/book_repository.dart';
 import 'package:libraryapp/features/book/presentation/bloc/book_bloc.dart';
+import 'package:libraryapp/features/denda/data/datasource/denda_data_source.dart';
+import 'package:libraryapp/features/denda/data/repository/denda_repository_impl.dart';
+import 'package:libraryapp/features/denda/domain/denda_repository.dart';
+import 'package:libraryapp/features/denda/presentation/bloc/denda_bloc.dart';
 import 'package:libraryapp/features/jenbu/data/datasource/jenbu_data_source.dart';
 import 'package:libraryapp/features/jenbu/data/repository/jenis_repository_impl.dart';
 import 'package:libraryapp/features/jenbu/domain/jenis_repository.dart';
@@ -39,5 +43,13 @@ class DependencyInjection {
     final datasource = JenbuDataSource(dio);
     JenisRepository repository = JenisRepositoryImpl(datasource);
     return JenbuBloc(repository);
+  }
+
+  static DendaBloc dendaBloc(){
+    Dio dio = DioClient.dio;
+
+    final datasource = DendaDataSource(dio);
+    DendaRepository repository = DendaRepositoryImpl(datasource);
+    return DendaBloc(repository);
   }
 }
