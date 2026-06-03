@@ -12,3 +12,18 @@ final class CreateJenbu extends JenbuEvent {
 
 final class ResetCreateJenbu
     extends JenbuEvent {}
+
+final class UpdateJenbu extends JenbuEvent{
+  final UpdateJenbuReq request;
+  UpdateJenbu({required this.request});
+}
+
+final class ResetUpdateJenbu extends JenbuEvent{}
+
+final class DeleteJenbu extends JenbuEvent {
+  final String id;
+
+  DeleteJenbu({required this.id});
+}
+
+final class ResetDeleteJenbu extends JenbuEvent {}

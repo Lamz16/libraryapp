@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:libraryapp/features/jenbu/data/models/models/res/CreateJenbuRes.dart';
+import 'package:libraryapp/features/jenbu/data/models/models/res/JenbuResponse.dart';
 
 import '../../../../core/state/result_state.dart';
 import '../../data/models/models/req/create_jenbu_req.dart';
+import '../../data/models/models/req/update_jenbu_req.dart';
 import '../../data/models/models/res/jenis_buku_response.dart';
 import '../bloc/jenbu_bloc.dart';
 
@@ -35,30 +36,81 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
 
       body: BlocConsumer<JenbuBloc, JenbuState>(
         listenWhen: (previous, current) {
-          return previous.createState != current.createState;
+          return previous.createState != current.createState ||
+              previous.updateState != current.updateState ||
+              previous.deleteState != current.deleteState;
         },
+
         listener: (context, state) {
+          /// CREATE
           final createState = state.createState;
 
-          if (createState is ResultLoaded<CreateJenbuRes>) {
+          if (createState is ResultLoaded<JenbuResponse>) {
             Navigator.pop(context);
 
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(createState.data.msg)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(createState.data.msg)),
+            );
 
             context.read<JenbuBloc>().add(ResetCreateJenbu());
 
             context.read<JenbuBloc>().add(GetAllJenbu());
           }
 
-          if (createState is ResultError<CreateJenbuRes>) {
+          if (createState is ResultError<JenbuResponse>) {
             Navigator.pop(context);
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(createState.message)));
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(createState.message)),
+            );
 
             context.read<JenbuBloc>().add(ResetCreateJenbu());
+          }
+
+          /// UPDATE
+          final updateState = state.updateState;
+
+          if (updateState is ResultLoaded<JenbuResponse>) {
+            Navigator.pop(context);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(updateState.data.msg)),
+            );
+
+            context.read<JenbuBloc>().add(ResetUpdateJenbu());
+
+            context.read<JenbuBloc>().add(GetAllJenbu());
+          }
+
+          if (updateState is ResultError<JenbuResponse>) {
+            Navigator.pop(context);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(updateState.message)),
+            );
+
+            context.read<JenbuBloc>().add(ResetUpdateJenbu());
+          }
+
+          /// DELETE
+          final deleteState = state.deleteState;
+
+          if (deleteState is ResultLoaded<JenbuResponse>) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(deleteState.data.msg)),
+            );
+
+            context.read<JenbuBloc>().add(ResetDeleteJenbu());
+
+            context.read<JenbuBloc>().add(GetAllJenbu());
+          }
+
+          if (deleteState is ResultError<JenbuResponse>) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(deleteState.message)),
+            );
+
+            context.read<JenbuBloc>().add(ResetDeleteJenbu());
           }
         },
 
@@ -232,7 +284,9 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
 
                 BlocBuilder<JenbuBloc, JenbuState>(
                   builder: (context, state) {
-                    final isLoading = state.createState is ResultLoading;
+                    final isLoading =
+                        state.createState is ResultLoading ||
+                            state.updateState is ResultLoading;
 
                     return SizedBox(
                       width: double.infinity,
@@ -258,15 +312,26 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
                                   return;
                                 }
 
-                                context.read<JenbuBloc>().add(
-                                  CreateJenbu(
-                                    request: CreateJenbuReq(
-                                      jenisBuku: jenis,
-
-                                      deskripsi: deskripsi,
+                                if (item == null) {
+                                  context.read<JenbuBloc>().add(
+                                    CreateJenbu(
+                                      request: CreateJenbuReq(
+                                        jenisBuku: jenis,
+                                        deskripsi: deskripsi,
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  context.read<JenbuBloc>().add(
+                                    UpdateJenbu(
+                                      request: UpdateJenbuReq(
+                                        id: item.id,
+                                        jenisBuku: jenis,
+                                        deskripsi: deskripsi,
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
 
                         child: isLoading
@@ -313,8 +378,9 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
 
             ElevatedButton(
               onPressed: () {
-                /// TODO:
-                /// DELETE API
+                context.read<JenbuBloc>().add(
+                  DeleteJenbu(id: id),
+                );
 
                 Navigator.pop(context);
               },

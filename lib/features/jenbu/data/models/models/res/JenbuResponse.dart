@@ -1,17 +1,17 @@
 
 
-class CreateJenbuRes {
+class JenbuResponse {
   final String msg;
 
-  CreateJenbuRes({
+  JenbuResponse({
     required this.msg,
   });
 
-  factory CreateJenbuRes.fromJson(
+  factory JenbuResponse.fromJson(
       Map<String, dynamic> json,
       ) {
 
-    return CreateJenbuRes(
+    return JenbuResponse(
       msg: json["msg"] ?? "",
     );
 
