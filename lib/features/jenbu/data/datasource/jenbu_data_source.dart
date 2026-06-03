@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:libraryapp/core/network/api_endpoint.dart';
 import 'package:libraryapp/features/jenbu/data/models/models/req/update_jenbu_req.dart';
 import 'package:libraryapp/features/jenbu/data/models/models/res/JenbuResponse.dart';
+import 'package:libraryapp/features/jenbu/data/models/models/res/detail_jenis_response.dart';
 import 'package:libraryapp/features/jenbu/data/models/models/res/jenis_buku_response.dart';
 
 import '../models/models/req/create_jenbu_req.dart';
@@ -15,6 +16,12 @@ class JenbuDataSource {
     final response = await dio.get(ApiEndpoint.jenisBuku);
 
     return JenisBukuResponse.fromJson(response.data);
+  }
+
+  Future<DetailJenisResponse> getJenbuById({required String id}) async{
+    final response = await dio.get("${ApiEndpoint.detailJenisBuku}/$id");
+
+    return DetailJenisResponse.fromJson(response.data);
   }
 
 

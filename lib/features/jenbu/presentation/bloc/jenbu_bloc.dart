@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:libraryapp/features/jenbu/data/models/models/req/create_jenbu_req.dart';
 import 'package:libraryapp/features/jenbu/data/models/models/req/update_jenbu_req.dart';
 import 'package:libraryapp/features/jenbu/data/models/models/res/JenbuResponse.dart';
+import 'package:libraryapp/features/jenbu/data/models/models/res/detail_jenis_response.dart';
 import 'package:libraryapp/features/jenbu/domain/jenis_repository.dart';
 
 import '../../../../core/state/result_state.dart';
@@ -16,6 +17,7 @@ class JenbuBloc extends Bloc<JenbuEvent, JenbuState> {
 
   JenbuBloc(this.repository) : super(JenbuState.initial()) {
     on<GetAllJenbu>(_getAllJenbu);
+    on<GetJenbuById>(_getJenbuById);
     on<CreateJenbu>(_createJenbu);
     on<ResetCreateJenbu>(_resetCreateJenbu);
     on<UpdateJenbu>(_updateJenbu);
@@ -32,6 +34,20 @@ class JenbuBloc extends Bloc<JenbuEvent, JenbuState> {
       emit(state.copyWith(jenbuState: ResultLoaded(response)));
     } catch (e) {
       emit(state.copyWith(jenbuState: ResultError(e.toString())));
+    }
+  }
+
+  Future<void> _getJenbuById(
+    GetJenbuById event,
+    Emitter<JenbuState> emit,
+  ) async {
+    emit(state.copyWith(detailState: ResultLoading()));
+
+    try {
+      final response = await repository.getJenbuById(id: event.id);
+      emit(state.copyWith(detailState: ResultLoaded(response)));
+    } catch (e) {
+      emit(state.copyWith(detailState: ResultError(e.toString())));
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:libraryapp/features/jenbu/data/models/models/res/JenbuResponse.dart';
+import 'package:libraryapp/features/jenbu/data/models/models/res/detail_jenis_response.dart';
 
 import '../../../../core/state/result_state.dart';
 import '../../data/models/models/req/create_jenbu_req.dart';
@@ -42,15 +43,15 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
         },
 
         listener: (context, state) {
-          /// CREATE
+          // creat data
           final createState = state.createState;
 
           if (createState is ResultLoaded<JenbuResponse>) {
             Navigator.pop(context);
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(createState.data.msg)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(createState.data.msg)));
 
             context.read<JenbuBloc>().add(ResetCreateJenbu());
 
@@ -60,22 +61,22 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
           if (createState is ResultError<JenbuResponse>) {
             Navigator.pop(context);
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(createState.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(createState.message)));
 
             context.read<JenbuBloc>().add(ResetCreateJenbu());
           }
 
-          /// UPDATE
+          // Update
           final updateState = state.updateState;
 
           if (updateState is ResultLoaded<JenbuResponse>) {
             Navigator.pop(context);
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(updateState.data.msg)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(updateState.data.msg)));
 
             context.read<JenbuBloc>().add(ResetUpdateJenbu());
 
@@ -85,20 +86,20 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
           if (updateState is ResultError<JenbuResponse>) {
             Navigator.pop(context);
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(updateState.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(updateState.message)));
 
             context.read<JenbuBloc>().add(ResetUpdateJenbu());
           }
 
-          /// DELETE
+          // delete
           final deleteState = state.deleteState;
 
           if (deleteState is ResultLoaded<JenbuResponse>) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(deleteState.data.msg)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(deleteState.data.msg)));
 
             context.read<JenbuBloc>().add(ResetDeleteJenbu());
 
@@ -106,9 +107,9 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
           }
 
           if (deleteState is ResultError<JenbuResponse>) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(deleteState.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(deleteState.message)));
 
             context.read<JenbuBloc>().add(ResetDeleteJenbu());
           }
@@ -157,53 +158,65 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
                       itemBuilder: (context, index) {
                         final item = data[index];
 
-                        return Card(
-                          elevation: 2,
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(12),
 
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
+                          onTap: () async {
+                            context.read<JenbuBloc>().add(
+                              GetJenbuById(id: item.id),
+                            );
 
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            _showDetailDialog();
+                          },
 
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        item.jenisBuku,
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                          child: Card(
+                            elevation: 2,
+
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          item.jenisBuku,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
-                                    ),
 
-                                    IconButton(
-                                      onPressed: () {
-                                        _showJenisBukuForm(item: item);
-                                      },
+                                      IconButton(
+                                        onPressed: () {
+                                          _showJenisBukuForm(item: item);
+                                        },
 
-                                      icon: const Icon(Icons.edit),
-                                    ),
-
-                                    IconButton(
-                                      onPressed: () {
-                                        _showDeleteDialog(item.id);
-                                      },
-
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
+                                        icon: const Icon(Icons.edit),
                                       ),
-                                    ),
-                                  ],
-                                ),
 
-                                const SizedBox(height: 10),
+                                      IconButton(
+                                        onPressed: () {
+                                          _showDeleteDialog(item.id);
+                                        },
 
-                                Text(item.deskripsi),
-                              ],
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  const SizedBox(height: 10),
+
+                                  Text(item.deskripsi),
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -286,7 +299,7 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
                   builder: (context, state) {
                     final isLoading =
                         state.createState is ResultLoading ||
-                            state.updateState is ResultLoading;
+                        state.updateState is ResultLoading;
 
                     return SizedBox(
                       width: double.infinity,
@@ -378,9 +391,7 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
 
             ElevatedButton(
               onPressed: () {
-                context.read<JenbuBloc>().add(
-                  DeleteJenbu(id: id),
-                );
+                context.read<JenbuBloc>().add(DeleteJenbu(id: id));
 
                 Navigator.pop(context);
               },
@@ -388,6 +399,105 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
               child: const Text("Hapus"),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void _showDetailDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return BlocBuilder<JenbuBloc, JenbuState>(
+          builder: (context, state) {
+            final detailState = state.detailState;
+
+            if (detailState is ResultLoading) {
+              return const AlertDialog(
+                content: SizedBox(
+                  height: 100,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+              );
+            }
+
+            if (detailState is ResultError<DetailJenisResponse>) {
+              return AlertDialog(
+                title: const Text("Error"),
+
+                content: Text(detailState.message),
+
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+
+                    child: const Text("Tutup"),
+                  ),
+                ],
+              );
+            }
+
+            if (detailState is ResultLoaded<DetailJenisResponse>) {
+              final item = detailState.data.data;
+
+              return AlertDialog(
+                title: const Text("Detail Jenis Buku"),
+
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                  children: [
+                    const Text(
+                      "Jenis Buku",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    Text(item.jenisBuku),
+
+                    const SizedBox(height: 16),
+
+                    const Text(
+                      "Deskripsi",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    Text(item.deskripsi),
+
+                    const SizedBox(height: 16),
+
+                    const Text(
+                      "Updated At",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    Text(item.updatedAt.toString()),
+                  ],
+                ),
+
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+
+                    child: const Text("Tutup"),
+                  ),
+                ],
+              );
+            }
+
+            return const SizedBox();
+          },
         );
       },
     );

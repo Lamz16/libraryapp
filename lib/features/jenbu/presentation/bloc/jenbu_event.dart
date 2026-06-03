@@ -4,6 +4,12 @@ sealed class JenbuEvent {}
 
 final class GetAllJenbu extends JenbuEvent {}
 
+final class GetJenbuById extends JenbuEvent{
+  final String id;
+
+  GetJenbuById({required this.id});
+}
+
 final class CreateJenbu extends JenbuEvent {
   final CreateJenbuReq request;
 
