@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => DependencyInjection.authBloc()),
         BlocProvider(create: (_) => DependencyInjection.bookBloc()),
+        BlocProvider(create: (_) => DependencyInjection.jenbuBloc()),
       ],
 
       child: MaterialApp(debugShowCheckedModeBanner: false, home: SplashPage()),
@@ -73,13 +74,13 @@ class SplashPage extends StatelessWidget {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       (isLogin)
-                          ? Navigator.push(
+                          ? Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => const HomePage(),
                               ),
                             )
-                          : Navigator.push(
+                          : Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => const LoginPage(),
