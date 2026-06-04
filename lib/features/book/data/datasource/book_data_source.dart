@@ -9,14 +9,38 @@ class BookDataSource {
   BookDataSource(this.dio);
 
   Future<BukuResponse> getAllBook() async {
-    final response = await dio.get(ApiEndpoint.buku);
+    try {
+      final response = await dio.get(ApiEndpoint.buku);
 
-    return BukuResponse.fromJson(response.data);
+      return BukuResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['message'] ??
+            e.message ??
+            'Terjadi kesalahan saat mengambil data buku',
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
-  
-  Future<DetailBukuResponse> getBookById({required String id}) async{
-    final response = await dio.get("${ApiEndpoint.detailBuku}/$id");
 
-    return DetailBukuResponse.fromJson(response.data);
+  Future<DetailBukuResponse> getBookById({
+    required String id,
+  }) async {
+    try {
+      final response = await dio.get(
+        "${ApiEndpoint.detailBuku}/$id",
+      );
+
+      return DetailBukuResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['message'] ??
+            e.message ??
+            'Terjadi kesalahan saat mengambil detail buku',
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 }

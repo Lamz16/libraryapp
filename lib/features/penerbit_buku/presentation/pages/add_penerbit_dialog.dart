@@ -46,30 +46,69 @@ class _AddPenerbitDialogState extends State<AddPenerbitDialog> {
               children: [
                 TextFormField(
                   controller: namaController,
-                  decoration: const InputDecoration(labelText: "Nama Penerbit"),
+                  decoration: const InputDecoration(
+                    labelText: "Nama Penerbit",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Nama penerbit wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
-
                 TextFormField(
                   controller: alamatController,
-                  decoration: const InputDecoration(labelText: "Alamat"),
+                  decoration: const InputDecoration(
+                    labelText: "Alamat",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Alamat wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
 
                 TextFormField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(labelText: "Email"),
+                  decoration: const InputDecoration(
+                    labelText: "Email",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Email wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
 
                 TextFormField(
                   controller: telpController,
                   keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(labelText: "Telepon"),
+                  decoration: const InputDecoration(
+                    labelText: "Telepon",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Telepon wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
 
                 TextFormField(
                   controller: deskripsiController,
                   maxLines: 3,
-                  decoration: const InputDecoration(labelText: "Deskripsi"),
+                  decoration: const InputDecoration(
+                    labelText: "Deskripsi",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Deskripsi wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
               ],
             ),
@@ -91,18 +130,22 @@ class _AddPenerbitDialogState extends State<AddPenerbitDialog> {
           onPressed: isLoading
               ? null
               : () {
-                  context.read<PenerbitBloc>().add(
-                    CreatePenerbit(
-                      request: CreatePenerbitReq(
-                        penerbitBuku: namaController.text,
-                        alamatPenerbit: alamatController.text,
-                        emailPenerbit: emailController.text,
-                        telpPenerbit: telpController.text,
-                        deskripsi: deskripsiController.text,
-                      ),
-                    ),
-                  );
-                },
+            if (!_formKey.currentState!.validate()) {
+              return;
+            }
+
+            context.read<PenerbitBloc>().add(
+              CreatePenerbit(
+                request: CreatePenerbitReq(
+                  penerbitBuku: namaController.text.trim(),
+                  alamatPenerbit: alamatController.text.trim(),
+                  emailPenerbit: emailController.text.trim(),
+                  telpPenerbit: telpController.text.trim(),
+                  deskripsi: deskripsiController.text.trim(),
+                ),
+              ),
+            );
+          },
 
           child: isLoading
               ? const SizedBox(

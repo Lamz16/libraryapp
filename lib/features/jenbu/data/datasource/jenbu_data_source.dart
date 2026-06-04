@@ -12,37 +12,106 @@ class JenbuDataSource {
 
   JenbuDataSource(this.dio);
 
-  Future<JenisBukuResponse> getAllJenbu() async{
-    final response = await dio.get(ApiEndpoint.jenisBuku);
+  Future<JenisBukuResponse> getAllJenbu() async {
+    try {
+      final response = await dio.get(ApiEndpoint.jenisBuku);
 
-    return JenisBukuResponse.fromJson(response.data);
+      return JenisBukuResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['msg'] ??
+            e.message ??
+            'Terjadi kesalahan saat mengambil data jenis buku',
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
-  Future<DetailJenisResponse> getJenbuById({required String id}) async{
-    final response = await dio.get("${ApiEndpoint.detailJenisBuku}/$id");
+  Future<DetailJenisResponse> getJenbuById({
+    required String id,
+  }) async {
+    try {
+      final response = await dio.get(
+        "${ApiEndpoint.detailJenisBuku}/$id",
+      );
 
-    return DetailJenisResponse.fromJson(response.data);
+      return DetailJenisResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['msg'] ??
+            e.message ??
+            'Terjadi kesalahan saat mengambil detail jenis buku',
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
+  Future<JenbuResponse> createJenbu({
+    required CreateJenbuReq request,
+  }) async {
+    try {
+      final response = await dio.post(
+        ApiEndpoint.createJenisBuku,
+        data: request.toJson(),
+      );
 
-  Future<JenbuResponse> createJenbu({required CreateJenbuReq request}) async{
-    final response = await dio.post(ApiEndpoint.createJenisBuku, data: request.toJson());
-
-    return JenbuResponse.fromJson(response.data);
+      return JenbuResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['msg'] ??
+            e.message ??
+            'Terjadi kesalahan saat menambahkan jenis buku',
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
-  Future<JenbuResponse> updateJenbu({required UpdateJenbuReq request}) async {
-    final response = await dio.put(ApiEndpoint.updateJenisBuku, data: request.toJson());
+  Future<JenbuResponse> updateJenbu({
+    required UpdateJenbuReq request,
+  }) async {
+    try {
+      final response = await dio.put(
+        ApiEndpoint.updateJenisBuku,
+        data: request.toJson(),
+      );
 
-    return JenbuResponse.fromJson(response.data);
+      return JenbuResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['msg'] ??
+            e.message ??
+            'Terjadi kesalahan saat mengubah jenis buku',
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
-  Future<JenbuResponse> deleteJenbu({required String id}) async{
-    final Map<String, String> data = {
-      "id" : id
-    };
-    final response = await dio.delete(ApiEndpoint.deleteJenisBuku, data: data);
+  Future<JenbuResponse> deleteJenbu({
+    required String id,
+  }) async {
+    try {
+      final Map<String, String> data = {
+        "id": id,
+      };
 
-    return JenbuResponse.fromJson(response.data);
+      final response = await dio.delete(
+        ApiEndpoint.deleteJenisBuku,
+        data: data,
+      );
+
+      return JenbuResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['msg'] ??
+            e.message ??
+            'Terjadi kesalahan saat menghapus jenis buku',
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 }

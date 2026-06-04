@@ -108,17 +108,17 @@ class _EditPenulisDialogState
                   children: [
 
                     TextFormField(
-                      controller:
-                      namaController,
-
-                      enabled:
-                      !isLoading,
-
-                      decoration:
-                      const InputDecoration(
-                        labelText:
-                        "Penulis Buku",
+                      controller: namaController,
+                      enabled: !isLoading,
+                      decoration: const InputDecoration(
+                        labelText: "Penulis Buku",
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "Penulis buku wajib diisi";
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(
@@ -126,17 +126,17 @@ class _EditPenulisDialogState
                     ),
 
                     TextFormField(
-                      controller:
-                      emailController,
-
-                      enabled:
-                      !isLoading,
-
-                      decoration:
-                      const InputDecoration(
-                        labelText:
-                        "Email Penulis",
+                      controller: emailController,
+                      enabled: !isLoading,
+                      decoration: const InputDecoration(
+                        labelText: "Email Penulis",
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "Email penulis wajib diisi";
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(
@@ -144,17 +144,17 @@ class _EditPenulisDialogState
                     ),
 
                     TextFormField(
-                      controller:
-                      alamatController,
-
-                      enabled:
-                      !isLoading,
-
-                      decoration:
-                      const InputDecoration(
-                        labelText:
-                        "Alamat",
+                      controller: alamatController,
+                      enabled: !isLoading,
+                      decoration: const InputDecoration(
+                        labelText: "Alamat",
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "Alamat wajib diisi";
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(
@@ -162,19 +162,18 @@ class _EditPenulisDialogState
                     ),
 
                     TextFormField(
-                      controller:
-                      deskripsiController,
-
-                      enabled:
-                      !isLoading,
-
+                      controller: deskripsiController,
+                      enabled: !isLoading,
                       maxLines: 3,
-
-                      decoration:
-                      const InputDecoration(
-                        labelText:
-                        "Deskripsi",
+                      decoration: const InputDecoration(
+                        labelText: "Deskripsi",
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "Deskripsi wajib diisi";
+                        }
+                        return null;
+                      },
                     ),
                   ],
                 ),
@@ -200,38 +199,22 @@ class _EditPenulisDialogState
             ),
 
             ElevatedButton(
-              onPressed:
-              isLoading
+              onPressed: isLoading
                   ? null
                   : () {
 
-                context
-                    .read<
-                    PenulisBloc>()
-                    .add(
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+
+                context.read<PenulisBloc>().add(
                   UpdatePenulis(
-                    req:
-                    UpdatePenulisReq(
-                      id:
-                      widget
-                          .penulis
-                          .id,
-
-                      emailPenulis:
-                      emailController
-                          .text,
-
-                      penulisBuku:
-                      namaController
-                          .text,
-
-                      alamatPenulis:
-                      alamatController
-                          .text,
-
-                      deskripsi:
-                      deskripsiController
-                          .text,
+                    req: UpdatePenulisReq(
+                      id: widget.penulis.id,
+                      emailPenulis: emailController.text.trim(),
+                      penulisBuku: namaController.text.trim(),
+                      alamatPenulis: alamatController.text.trim(),
+                      deskripsi: deskripsiController.text.trim(),
                     ),
                   ),
                 );

@@ -68,6 +68,12 @@ class _EditPeminjamanDialogState
                   decoration: const InputDecoration(
                     labelText: "ID Anggota",
                   ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "ID Anggota wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
 
                 const SizedBox(height: 12),
@@ -77,6 +83,12 @@ class _EditPeminjamanDialogState
                   decoration: const InputDecoration(
                     labelText: "Jaminan",
                   ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Jaminan wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
 
                 const SizedBox(height: 12),
@@ -143,20 +155,18 @@ class _EditPeminjamanDialogState
 
         ElevatedButton(
           onPressed: () {
+            if (!_formKey.currentState!.validate()) {
+              return;
+            }
 
             context.read<PeminjamanBloc>().add(
               UpdatePeminjaman(
                 request: UpdatePeminjamanReq(
-                  idPeminjaman:
-                  widget.peminjaman.id,
-                  idAnggota:
-                  anggotaController.text,
-                  jaminan:
-                  jaminanController.text,
-                  tglPinjam:
-                  formatApiDate(tglPinjam),
-                  tglHrsKembali:
-                  formatApiDate(tglKembali),
+                  idPeminjaman: widget.peminjaman.id,
+                  idAnggota: anggotaController.text.trim(),
+                  jaminan: jaminanController.text.trim(),
+                  tglPinjam: formatApiDate(tglPinjam),
+                  tglHrsKembali: formatApiDate(tglKembali),
                 ),
               ),
             );

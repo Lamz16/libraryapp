@@ -26,7 +26,6 @@ class _BukuPageState extends State<BukuPage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Is Login -> ${isLogin.toString()}");
     return Scaffold(
       appBar: isLogin
       ? null

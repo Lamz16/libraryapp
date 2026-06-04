@@ -9,9 +9,21 @@ class AuthDataSource {
   AuthDataSource(this.dio);
 
   Future<LoginResponse> login(LoginRequest request) async {
+    try {
+      final response = await dio.post(
+        ApiEndpoint.login,
+        data: request.toJson(),
+      );
 
-    final response = await dio.post(ApiEndpoint.login, data: request.toJson());
-
-    return LoginResponse.fromJson(response.data);
+      return LoginResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['msg'] ??
+            e.message ??
+            'Terjadi kesalahan saat login',
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 }

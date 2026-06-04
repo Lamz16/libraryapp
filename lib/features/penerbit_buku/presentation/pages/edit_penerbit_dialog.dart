@@ -98,6 +98,12 @@ class _EditPenerbitDialogState
                   decoration: const InputDecoration(
                     labelText: "Alamat",
                   ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Alamat wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
 
                 const SizedBox(height: 12),
@@ -108,6 +114,12 @@ class _EditPenerbitDialogState
                   decoration: const InputDecoration(
                     labelText: "Email",
                   ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Email wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
 
                 const SizedBox(height: 12),
@@ -118,19 +130,28 @@ class _EditPenerbitDialogState
                   decoration: const InputDecoration(
                     labelText: "Telepon",
                   ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Telepon wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
 
                 const SizedBox(height: 12),
 
                 TextFormField(
-                  controller:
-                  deskripsiController,
+                  controller: deskripsiController,
                   maxLines: 3,
-                  decoration:
-                  const InputDecoration(
-                    labelText:
-                    "Deskripsi",
+                  decoration: const InputDecoration(
+                    labelText: "Deskripsi",
                   ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Deskripsi wajib diisi";
+                    }
+                    return null;
+                  },
                 ),
               ],
             ),

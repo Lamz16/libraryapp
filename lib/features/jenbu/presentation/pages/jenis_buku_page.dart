@@ -240,131 +240,132 @@ class _JenisBukuPageState extends State<JenisBukuPage> {
 
     showModalBottomSheet(
       context: context,
-
       isScrollControlled: true,
-
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-
       builder: (context) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 20,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-            ),
+        String? jenisError;
+        String? deskripsiError;
 
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-
-              children: [
-                Text(
-                  item == null ? "Tambah Jenis Buku" : "Edit Jenis Buku",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 20,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 20,
                 ),
-
-                const SizedBox(height: 20),
-
-                TextField(
-                  controller: jenisController,
-
-                  decoration: const InputDecoration(
-                    labelText: "Jenis Buku",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                TextField(
-                  controller: deskripsiController,
-
-                  maxLines: 4,
-
-                  decoration: const InputDecoration(
-                    labelText: "Deskripsi",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                BlocBuilder<JenbuBloc, JenbuState>(
-                  builder: (context, state) {
-                    final isLoading =
-                        state.createState is ResultLoading ||
-                        state.updateState is ResultLoading;
-
-                    return SizedBox(
-                      width: double.infinity,
-
-                      height: 50,
-
-                      child: ElevatedButton(
-                        onPressed: isLoading
-                            ? null
-                            : () {
-                                final jenis = jenisController.text.trim();
-
-                                final deskripsi = deskripsiController.text
-                                    .trim();
-
-                                if (jenis.isEmpty || deskripsi.isEmpty) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Semua field wajib diisi"),
-                                    ),
-                                  );
-
-                                  return;
-                                }
-
-                                if (item == null) {
-                                  context.read<JenbuBloc>().add(
-                                    CreateJenbu(
-                                      request: CreateJenbuReq(
-                                        jenisBuku: jenis,
-                                        deskripsi: deskripsi,
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  context.read<JenbuBloc>().add(
-                                    UpdateJenbu(
-                                      request: UpdateJenbuReq(
-                                        id: item.id,
-                                        jenisBuku: jenis,
-                                        deskripsi: deskripsi,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-
-                        child: isLoading
-                            ? const SizedBox(
-                                height: 22,
-                                width: 22,
-
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : Text(item == null ? "Tambah" : "Update"),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      item == null ? "Tambah Jenis Buku" : "Edit Jenis Buku",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  },
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      controller: jenisController,
+                      decoration: InputDecoration(
+                        labelText: "Jenis Buku",
+                        border: const OutlineInputBorder(),
+                        errorText: jenisError,
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    TextField(
+                      controller: deskripsiController,
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                        labelText: "Deskripsi",
+                        border: const OutlineInputBorder(),
+                        errorText: deskripsiError,
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    BlocBuilder<JenbuBloc, JenbuState>(
+                      builder: (context, state) {
+                        final isLoading =
+                            state.createState is ResultLoading ||
+                                state.updateState is ResultLoading;
+
+                        return SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: isLoading
+                                ? null
+                                : () {
+                              final jenis = jenisController.text.trim();
+                              final deskripsi =
+                              deskripsiController.text.trim();
+
+                              setModalState(() {
+                                jenisError = jenis.isEmpty
+                                    ? "Jenis buku wajib diisi"
+                                    : null;
+
+                                deskripsiError = deskripsi.isEmpty
+                                    ? "Deskripsi wajib diisi"
+                                    : null;
+                              });
+
+                              if (jenisError != null ||
+                                  deskripsiError != null) {
+                                return;
+                              }
+
+                              if (item == null) {
+                                context.read<JenbuBloc>().add(
+                                  CreateJenbu(
+                                    request: CreateJenbuReq(
+                                      jenisBuku: jenis,
+                                      deskripsi: deskripsi,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                context.read<JenbuBloc>().add(
+                                  UpdateJenbu(
+                                    request: UpdateJenbuReq(
+                                      id: item.id,
+                                      jenisBuku: jenis,
+                                      deskripsi: deskripsi,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: isLoading
+                                ? const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                                : Text(item == null ? "Tambah" : "Update"),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
