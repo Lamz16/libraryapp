@@ -12,3 +12,7 @@ String dateOnly(String dateTime) {
 
   return DateFormat('dd MMM yyyy', 'id_ID').format(date);
 }
+
+String formatRupiah(num value) {
+return 'Rp ${NumberFormat.decimalPattern('id_ID').format(value)}';
+}

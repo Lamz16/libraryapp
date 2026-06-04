@@ -68,10 +68,6 @@ class PeminjamanBloc extends Bloc<PeminjamanEvent, PeminjamanState>{
       final response = await repository.createPeminjaman(request: event.request);
       emit(state.copyWith(createState: ResultLoaded(response)));
     }catch(e){
-      print("${event.request.idAnggota}");
-      print("${event.request.jaminan}");
-      print("${event.request.tglHrsKembali}");
-      print("${event.request.tglPinjam}");
       emit(state.copyWith(createState: ResultError(e.toString())));
     }
   }
