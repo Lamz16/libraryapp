@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:libraryapp/features/penerbit_buku/presentation/pages/penerbit_page.dart';
+import 'package:libraryapp/features/penuliss_buku/presentation/pages/penulis_page.dart';
 
 import '../core/utils/shared_preference_helper.dart';
 import '../features/auth/presentation/pages/login_page.dart';
@@ -22,6 +24,8 @@ class _HomePageState extends State<HomePage> {
     JenisBukuPage(),
     PeminjamanPage(),
     DendaPage(),
+    PenulisPage(),
+    PenerbitPage(),
   ];
 
   final List<String> titles = [
@@ -29,6 +33,8 @@ class _HomePageState extends State<HomePage> {
     "Jenis Buku",
     "Peminjaman",
     "Denda",
+    "Penulis Buku",
+    "Penerbit Buku"
   ];
 
   @override
@@ -98,6 +104,18 @@ class _HomePageState extends State<HomePage> {
                 icon: Icons.money_off,
                 title: "Denda",
                 index: 3,
+              ),
+
+              _menuItem(
+                icon: Icons.menu_book,
+                title: "Penulis Buku",
+                index: 4,
+              ),
+
+              _menuItem(
+                icon: Icons.menu_book,
+                title: "Penerbit Buku",
+                index: 5,
               ),
 
               const Spacer(),

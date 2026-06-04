@@ -21,6 +21,10 @@ import 'core/network/dio_client.dart';
 import 'features/auth/data/repository/auth_repository_impl.dart';
 import 'features/auth/domain/auth_repository.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/penuliss_buku/data/datasource/penulis_buku_datasource.dart';
+import 'features/penuliss_buku/data/repository/penulis_repository_impl.dart';
+import 'features/penuliss_buku/domain/penulis_repository.dart';
+import 'features/penuliss_buku/presentation/bloc/penulis_bloc.dart';
 
 class DependencyInjection {
   static AuthBloc authBloc() {
@@ -63,5 +67,13 @@ class DependencyInjection {
     final datasource = PeminjamanDataSource(dio);
     PeminjamanRepository repository = PeminjamanRepositoryImpl(datasource);
     return PeminjamanBloc(repository);
+  }
+
+  static PenulisBloc penulisBloc(){
+    Dio dio = DioClient.dio;
+
+    final datasource = PenulisDataSource(dio);
+    PenulisRepository repository = PenulisRepositoryImpl(datasource);
+    return PenulisBloc(repository);
   }
 }

@@ -30,8 +30,6 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Data Peminjaman')),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
