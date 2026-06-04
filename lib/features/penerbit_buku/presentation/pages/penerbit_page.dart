@@ -38,11 +38,6 @@ class _PenerbitPageState
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Data Penerbit",
-        ),
-      ),
 
       floatingActionButton:
       FloatingActionButton(
