@@ -44,7 +44,7 @@ class _PenulisPageState
           showDialog(
             context: context,
             builder: (_) =>
-            const AddPenerbitDialog(),
+            const AddPenulisDialog(),
           );
         },
         child: const Icon(Icons.add),
@@ -266,7 +266,7 @@ class _PenulisPageState
                           showDialog(
                             context: context,
                             builder: (_) =>
-                                DetailPenerbitDialog(
+                                DetailPenulisDialog(
                                   id: item.id,
                                 ),
                           );
@@ -292,8 +292,8 @@ class _PenulisPageState
                                 showDialog(
                                   context: context,
                                   builder: (_) =>
-                                      EditPenerbitDialog(
-                                        penerbit:
+                                      EditPenulisDialog(
+                                        penulis:
                                         item,
                                       ),
                                 );

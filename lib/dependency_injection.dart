@@ -16,6 +16,10 @@ import 'package:libraryapp/features/peminjaman/data/datasource/peminjaman_data_s
 import 'package:libraryapp/features/peminjaman/data/repository/peminjaman_repository_impl.dart';
 import 'package:libraryapp/features/peminjaman/domain/peminjaman_repository.dart';
 import 'package:libraryapp/features/peminjaman/presentation/bloc/peminjaman_bloc.dart';
+import 'package:libraryapp/features/penerbit_buku/data/datasource/penerbit_datasource.dart';
+import 'package:libraryapp/features/penerbit_buku/data/repository/penerbit_repository_impl.dart';
+import 'package:libraryapp/features/penerbit_buku/domain/penerbit_repository.dart';
+import 'package:libraryapp/features/penerbit_buku/presentation/bloc/penerbit_bloc.dart';
 
 import 'core/network/dio_client.dart';
 import 'features/auth/data/repository/auth_repository_impl.dart';
@@ -75,5 +79,13 @@ class DependencyInjection {
     final datasource = PenulisDataSource(dio);
     PenulisRepository repository = PenulisRepositoryImpl(datasource);
     return PenulisBloc(repository);
+  }
+
+  static PenerbitBloc penerbitBloc(){
+    Dio dio = DioClient.dio;
+
+    final datasource = PenerbitDatasource(dio);
+    PenerbitRepository repository = PenerbitRepositoryImpl(datasource);
+    return PenerbitBloc(repository);
   }
 }

@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => DependencyInjection.dendaBloc()),
         BlocProvider(create: (_) => DependencyInjection.peminjamanBloc()),
         BlocProvider(create: (_) => DependencyInjection.penulisBloc()),
+        BlocProvider(create: (_) => DependencyInjection.penerbitBloc()),
       ],
 
       child: MaterialApp(debugShowCheckedModeBanner: false, home: SplashPage(),),

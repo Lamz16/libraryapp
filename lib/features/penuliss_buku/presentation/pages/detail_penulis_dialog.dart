@@ -5,25 +5,25 @@ import 'package:libraryapp/features/penuliss_buku/data/models/models/res/detail_
 import '../../../../core/state/result_state.dart';
 import '../bloc/penulis_bloc.dart';
 
-class DetailPenerbitDialog
+class DetailPenulisDialog
     extends StatefulWidget {
 
   final String id;
 
-  const DetailPenerbitDialog({
+  const DetailPenulisDialog({
     super.key,
     required this.id,
   });
 
   @override
-  State<DetailPenerbitDialog>
+  State<DetailPenulisDialog>
   createState() =>
-      _DetailPenerbitDialogState();
+      _DetailPenulisDialogState();
 }
 
-class _DetailPenerbitDialogState
+class _DetailPenulisDialogState
     extends State<
-        DetailPenerbitDialog> {
+        DetailPenulisDialog> {
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _DetailPenerbitDialogState
     return AlertDialog(
       title:
       const Text(
-        "Detail Penerbit",
+        "Detail Penulis",
       ),
 
       content: SizedBox(

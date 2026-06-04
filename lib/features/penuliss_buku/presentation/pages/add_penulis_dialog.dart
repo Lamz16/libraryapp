@@ -6,16 +6,16 @@ import 'package:libraryapp/features/penuliss_buku/data/models/models/res/penulis
 import '../../../../core/state/result_state.dart';
 import '../bloc/penulis_bloc.dart';
 
-class AddPenerbitDialog extends StatefulWidget {
-  const AddPenerbitDialog({super.key});
+class AddPenulisDialog extends StatefulWidget {
+  const AddPenulisDialog({super.key});
 
   @override
-  State<AddPenerbitDialog> createState() =>
-      _AddPenerbitDialogState();
+  State<AddPenulisDialog> createState() =>
+      _AddPenulisDialogState();
 }
 
-class _AddPenerbitDialogState
-    extends State<AddPenerbitDialog> {
+class _AddPenulisDialogState
+    extends State<AddPenulisDialog> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -45,7 +45,7 @@ class _AddPenerbitDialogState
 
         return AlertDialog(
           title: const Text(
-            "Tambah Penerbit",
+            "Tambah Penulis",
           ),
 
           content: SizedBox(

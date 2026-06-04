@@ -7,25 +7,25 @@ import '../../../../core/state/result_state.dart';
 import '../../data/models/models/res/penulis_response.dart';
 import '../bloc/penulis_bloc.dart';
 
-class EditPenerbitDialog
+class EditPenulisDialog
     extends StatefulWidget {
 
-  final Datum penerbit;
+  final Datum penulis;
 
-  const EditPenerbitDialog({
+  const EditPenulisDialog({
     super.key,
-    required this.penerbit,
+    required this.penulis,
   });
 
   @override
-  State<EditPenerbitDialog>
+  State<EditPenulisDialog>
   createState() =>
-      _EditPenerbitDialogState();
+      _EditPenulisDialogState();
 }
 
-class _EditPenerbitDialogState
+class _EditPenulisDialogState
     extends State<
-        EditPenerbitDialog> {
+        EditPenulisDialog> {
 
   final _formKey =
   GlobalKey<FormState>();
@@ -49,28 +49,28 @@ class _EditPenerbitDialogState
     namaController =
         TextEditingController(
           text:
-          widget.penerbit
+          widget.penulis
               .penulisBuku,
         );
 
     emailController =
         TextEditingController(
           text:
-          widget.penerbit
+          widget.penulis
               .emailPenulis,
         );
 
     alamatController =
         TextEditingController(
           text:
-          widget.penerbit
+          widget.penulis
               .alamat,
         );
 
     deskripsiController =
         TextEditingController(
           text:
-          widget.penerbit
+          widget.penulis
               .deskripsi,
         );
   }
@@ -90,7 +90,7 @@ class _EditPenerbitDialogState
         return AlertDialog(
           title:
           const Text(
-            "Edit Penerbit",
+            "Edit Penulis",
           ),
 
           content: SizedBox(
@@ -214,7 +214,7 @@ class _EditPenerbitDialogState
                     UpdatePenulisReq(
                       id:
                       widget
-                          .penerbit
+                          .penulis
                           .id,
 
                       emailPenulis:
