@@ -12,6 +12,10 @@ import 'package:libraryapp/features/jenbu/data/datasource/jenbu_data_source.dart
 import 'package:libraryapp/features/jenbu/data/repository/jenis_repository_impl.dart';
 import 'package:libraryapp/features/jenbu/domain/jenis_repository.dart';
 import 'package:libraryapp/features/jenbu/presentation/bloc/jenbu_bloc.dart';
+import 'package:libraryapp/features/peminjaman/data/datasource/peminjaman_data_source.dart';
+import 'package:libraryapp/features/peminjaman/data/repository/peminjaman_repository_impl.dart';
+import 'package:libraryapp/features/peminjaman/domain/peminjaman_repository.dart';
+import 'package:libraryapp/features/peminjaman/presentation/bloc/peminjaman_bloc.dart';
 
 import 'core/network/dio_client.dart';
 import 'features/auth/data/repository/auth_repository_impl.dart';
@@ -51,5 +55,13 @@ class DependencyInjection {
     final datasource = DendaDataSource(dio);
     DendaRepository repository = DendaRepositoryImpl(datasource);
     return DendaBloc(repository);
+  }
+
+  static PeminjamanBloc peminjamanBloc(){
+    Dio dio = DioClient.dio;
+
+    final datasource = PeminjamanDataSource(dio);
+    PeminjamanRepository repository = PeminjamanRepositoryImpl(datasource);
+    return PeminjamanBloc(repository);
   }
 }
